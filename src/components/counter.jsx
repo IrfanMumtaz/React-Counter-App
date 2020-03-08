@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 class Counter extends Component {
-    state = {
+    /* state = {
         value: this.props.counter.value
-    };
+    }; */
 
     /* constructor() {
         super();
@@ -14,16 +14,16 @@ class Counter extends Component {
             <div>
                 <span>{this.props.counter.title}</span>
                 <button
-                    onClick={() => this.handlerIncrement({ id: 1 })}
+                    onClick={() => this.props.onIncrement(this.props.counter)}
                     className="btn btn-secondary btn-sm m-2"
                 >
                     +
                 </button>
                 <span style={this.styleCount()} className={this.classCount()}>
-                    {this.state.value}
+                    {this.props.counter.value}
                 </span>
                 <button
-                    onClick={() => this.handlerDecrement({ id: 1 })}
+                    onClick={() => this.props.onDecrement(this.props.counter)}
                     className="btn btn-secondary btn-sm"
                     disabled={this.handlerDecrementState()}
                 >
@@ -39,22 +39,14 @@ class Counter extends Component {
         );
     }
 
-    handlerIncrement = product => {
-        this.setState({ value: ++this.state.value });
-    };
-
-    handlerDecrement = product => {
-        if (this.state.value > 0) this.setState({ value: --this.state.value });
-    };
-
     handlerDecrementState() {
-        if (this.state.value === 0) return true;
+        if (this.props.counter.value === 0) return true;
         return false;
     }
 
     classCount() {
         let classes = "badge m-2 badge-";
-        classes += this.state.value === 0 ? "warning" : "primary";
+        classes += this.props.counter.value === 0 ? "warning" : "primary";
 
         return classes;
     }

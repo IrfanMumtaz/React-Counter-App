@@ -23,11 +23,21 @@ class Counters extends Component {
                 >
                     Press enter to submit!
                 </span>
+                <div>
+                    <button
+                        className="btn btn-sm btn-warning mt-4 mb-4"
+                        onClick={this.handlerResetAll}
+                    >
+                        Reset all
+                    </button>
+                </div>
                 {this.state.counters.map(counter => (
                     <Counter
                         key={counter.id}
                         counter={counter}
                         onDelete={this.handlerDelete}
+                        onIncrement={this.handlerIncrement}
+                        onDecrement={this.handlerDecrement}
                     />
                 ))}
             </div>
@@ -56,9 +66,35 @@ class Counters extends Component {
         document.getElementById("addCounter").value = "";
     }
 
+    handlerResetAll = () => {
+        const counters = this.state.counters.map(c => {
+            c.value = 0;
+            return c;
+        });
+        this.setState({ counters });
+    };
+
     handlerDelete = counterID => {
         const counters = this.state.counters.filter(c => c.id !== counterID);
         this.setState({ counters });
+    };
+
+    handlerIncrement = counter => {
+        const counters = [...this.state.counters];
+        let index = counters.indexOf(counter);
+        counters[index].value = ++counter.value;
+
+        this.setState({ counters });
+    };
+
+    handlerDecrement = counter => {
+        if (counter.value > 0) {
+            const counters = [...this.state.counters];
+            let index = counters.indexOf(counter);
+            counters[index].value = --counter.value;
+
+            this.setState({ counters });
+        }
     };
 }
 
